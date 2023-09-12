@@ -16,18 +16,20 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 function sortAndRemoveDuplicates(array) {
   array.sort();
-  // console.log("sorted: " + array);
   for (let i = 0; i < array.length; i++) {
     if (array[i] === array[i + 1]) {
       array.splice(i, 1);
     }
   }
-  // console.log("removed: " + array);
 }
 
 let array = [1, 4, 5, 3, 4, 5, 7, 8, 9];
 sortAndRemoveDuplicates(array);
 
 let myTree = new Tree(array);
+
+myTree.insert(2);
+
+console.log(myTree.find(4));
 
 prettyPrint(myTree.root);

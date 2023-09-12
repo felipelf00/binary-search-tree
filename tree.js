@@ -1,19 +1,6 @@
 import Node from "./node.js";
 
-function sortAndRemoveDuplicates(array) {
-  array.sort();
-  // console.log("sorted: " + array);
-  for (let i = 0; i < array.length; i++) {
-    if (array[i] === array[i + 1]) {
-      array.splice(i, 1);
-    }
-  }
-  // console.log("removed: " + array);
-}
-
 function sortedArrayToBST(array, start, end) {
-  sortAndRemoveDuplicates(array);
-
   if (start > end) return null;
 
   let mid = Math.floor((start + end) / 2);
@@ -29,6 +16,47 @@ class Tree {
   constructor(dataArray) {
     this.root = sortedArrayToBST(dataArray, 0, dataArray.length - 1);
   }
+  insert(value) {
+    let currentNode = this.root;
+
+    let done = false;
+    while (!done) {
+      if (value < currentNode.data) {
+        if (currentNode.left === null) {
+          currentNode.left = new Node(value);
+          done = true;
+        } else {
+          currentNode = currentNode.left;
+        }
+      } else {
+        if (currentNode.right === null) {
+          currentNode.right = new Node(value);
+          done = true;
+        } else {
+          currentNode = currentNode.right;
+        }
+      }
+    }
+  }
+  find(value) {
+    let currentNode = this.root;
+
+    while (currentNode !== null) {
+      if (currentNode.data === value) return currentNode;
+
+      if (value < currentNode.data) {
+        currentNode = currentNode.left;
+      } else {
+        currentNode = currentNode.right;
+      }
+    }
+    console.log("Value not found");
+    return null;
+  }
+  // delete(value) {
+  //   let currentNode = this.root;
+
+  // }
 }
 
 export default Tree;
