@@ -1,5 +1,14 @@
 import Node from "./node.js";
 
+export function sortAndRemoveDuplicates(array) {
+  array.sort((a, b) => a - b);
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === array[i + 1]) {
+      array.splice(i, 1);
+    }
+  }
+}
+
 function sortedArrayToBST(array, start, end) {
   if (start > end) return null;
 
@@ -256,6 +265,38 @@ class Tree {
     let rightDepth = 1 + this.height(node.right);
 
     return leftDepth > rightDepth ? leftDepth : rightDepth;
+  }
+  depth(node) {
+    if (!node) {
+      console.log("Node does not exist");
+      return;
+    }
+    let currentNode = this.root;
+    let counter = 0;
+
+    while (currentNode !== null && currentNode !== node) {
+      if (node.data < currentNode.data) {
+        counter += 1;
+        currentNode = currentNode.left;
+      } else {
+        counter += 1;
+        currentNode = currentNode.right;
+      }
+    }
+    return counter;
+  }
+  isBalanced() {
+    return Math.abs(
+      this.height(this.root.left) - this.height(this.root.right)
+    ) <= 1
+      ? true
+      : false;
+  }
+  rebalance() {
+    let newArray = this.levelOrder();
+    sortAndRemoveDuplicates(newArray);
+    // console.log(newArray);
+    this.root = sortedArrayToBST(newArray, 0, newArray.length - 1);
   }
 }
 

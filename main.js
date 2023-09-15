@@ -1,5 +1,6 @@
 import Node from "./node.js";
 import Tree from "./tree.js";
+// import { sortAndRemoveDuplicates } from "./tree.js";
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -36,6 +37,10 @@ let myTree = new Tree(array);
 // console.log(myTree.preOrder());
 // console.log(myTree.inOrder());
 // console.log(myTree.postOrder());
+// console.log(myTree.depth(myTree.find(3)));
 
+myTree.insert(11);
+myTree.rebalance();
 prettyPrint(myTree.root);
-console.log(myTree.height(myTree.find(8)));
+
+console.log(myTree.isBalanced());
