@@ -30,8 +30,12 @@ sortAndRemoveDuplicates(array);
 let myTree = new Tree(array);
 
 // myTree.insert(2);
-myTree.find(4);
+// myTree.find(4);
 // myTree.delete(9);
 // console.log(myTree.findParent(4));
+// console.log(myTree.preOrder());
+// console.log(myTree.inOrder());
+// console.log(myTree.postOrder());
 
 prettyPrint(myTree.root);
+console.log(myTree.height(myTree.find(8)));

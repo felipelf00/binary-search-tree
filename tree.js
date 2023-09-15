@@ -54,27 +54,10 @@ class Tree {
         currentNode = currentNode.right;
       }
     }
-    // console.log("Target not found");
     return null;
   }
 
-  // findParent(value) {
-  //   let currentNode = this.root;
-
-  //   while (currentNode !== null) {
-  //     if (currentNode.left.data === value || currentNode.right.data === value)
-  //       return currentNode;
-
-  //     if (value < currentNode.data) {
-  //       currentNode = currentNode.left;
-  //     } else {
-  //       currentNode = currentNode.right;
-  //     }
-  //   }
-  //   console.log("Target not found");
-  //   return null;
-  // }
-
+  //this can be done recursively with much cleaner code...
   delete(value) {
     let currentNode = this.root;
     let parentNode = null;
@@ -91,13 +74,10 @@ class Tree {
     }
     //otherwise
     while (done !== true && currentNode !== null) {
-      // console.log("Current Node: " + currentNode.data);
-
       if (currentNode.left && currentNode.left.data === value) {
         parentNode = currentNode;
         currentNode = currentNode.left;
         childIsLarger = false;
-        // done = true;
         break;
       }
 
@@ -190,6 +170,92 @@ class Tree {
 
     replacement.left = currentNode.left;
     replacement.right = currentNode.right;
+  }
+
+  levelOrder(cb) {
+    let currentNode = this.root;
+    let list = [];
+    let queue = [this.root];
+
+    if (currentNode === null) return [];
+
+    while (queue.length) {
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+      cb ? cb(queue[0]) : list.push(queue[0].data);
+      queue.shift();
+      currentNode = queue[0];
+    }
+
+    if (cb) {
+      return;
+    }
+    return list;
+  }
+
+  preOrder(node = this.root, cb) {
+    if (node === null) return [];
+    let list = [];
+
+    if (cb) {
+      cb(node);
+    } else {
+      list.push(node.data);
+    }
+
+    list = list.concat(this.preOrder(node.left, cb));
+    list = list.concat(this.preOrder(node.right, cb));
+
+    // if (cb) return;
+    return list;
+  }
+
+  inOrder(node = this.root, cb) {
+    if (node === null) return [];
+    let list = [];
+
+    list = list.concat(this.inOrder(node.left, cb));
+
+    if (cb) {
+      cb(node);
+    } else {
+      list.push(node.data);
+    }
+
+    list = list.concat(this.inOrder(node.right, cb));
+    return list;
+  }
+
+  postOrder(node = this.root, cb) {
+    if (node === null) return [];
+    let list = [];
+
+    list = list.concat(this.postOrder(node.left, cb));
+    list = list.concat(this.postOrder(node.right, cb));
+
+    if (cb) {
+      cb(node);
+    } else {
+      list.push(node.data);
+    }
+
+    return list;
+  }
+  height(node) {
+    if (node === null) {
+      return -1;
+    }
+
+    if (node.left === null && node.right === null) return 0;
+
+    let leftDepth = 1 + this.height(node.left);
+    let rightDepth = 1 + this.height(node.right);
+
+    return leftDepth > rightDepth ? leftDepth : rightDepth;
   }
 }
 
